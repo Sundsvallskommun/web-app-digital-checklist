@@ -1,0 +1,37 @@
+@layer components {
+  .container {
+    @apply px-8 lg:px-0;
+  }
+
+  .form-error-message {
+    @apply mb-4;
+  }
+
+  .max-width-content {
+    @apply max-w-[90%];
+  }
+
+  .header-container .header-content,
+  .TabMenu > .tab-wrapper {
+    @apply max-width-content;
+  }
+
+  .zebratable {
+    .mx-sm {
+      @apply -left-4;
+    }
+    &-thead-th:last-child {
+      @apply text-xl;
+    }
+    &-tbody-td:last-child {
+      @apply flex justify-end;
+    }
+    &-tbody-td:nth-child(3) {
+      @apply w-1/4;
+    }
+  }
+
+  .alert-banner-children {
+    text-decoration: none;
+  }
+}
