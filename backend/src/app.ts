@@ -21,7 +21,7 @@ import {
   SESSION_MEMORY,
   SWAGGER_ENABLED,
 } from '@config';
-import { Strategy, VerifiedCallback } from 'passport-saml';
+import { Strategy, VerifiedCallback } from '@node-saml/passport-saml';
 import { existsSync, mkdirSync } from 'fs';
 import { getMetadataArgsStorage, useExpressServer } from 'routing-controllers';
 import { logger, stream } from '@utils/logger';
@@ -70,12 +70,14 @@ const samlStrategy = new Strategy(
     callbackUrl: SAML_CALLBACK_URL,
     entryPoint: SAML_ENTRY_SSO,
     privateKey: SAML_PRIVATE_KEY,
-    cert: SAML_IDP_PUBLIC_CERT,
+    idpCert: SAML_IDP_PUBLIC_CERT,
     issuer: SAML_ISSUER,
     wantAssertionsSigned: false,
     logoutCallbackUrl: SAML_LOGOUT_CALLBACK_URL,
     // NOTE: Allow clock skew incase client and server clocks differs a bit.
     acceptedClockSkewMs: 1000,
+    wantAuthnResponseSigned: false,
+    audience: false,
   },
   async function (profile: Profile, done: VerifiedCallback) {
     if (!profile) {
@@ -123,6 +125,9 @@ const samlStrategy = new Strategy(
       }
       done(err);
     }
+  },
+  async function (profile: Profile, done: VerifiedCallback) {
+    return done(null, {});
   },
 );
 
